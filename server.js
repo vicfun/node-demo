@@ -19,17 +19,27 @@ var server = http.createServer(function(request, response){
 
   /******** 从这里开始看，上面不要看 ************/
 
-  console.log('方方说：含查询字符串的路径\n' + pathWithQuery)
+  console.log('羊羊说: HTTP路径为\n' + pathWithQuery)
 
   if(path === '/'){
     response.statusCode = 200
     response.setHeader('Content-Type', 'text/html;charset=utf-8')
-    response.write('哈哈哈')
+    response.write('<!DOCTYPE html>' + 
+    '<html lang="en"><head><link rel="stylesheet" href="/style.css"></head>' +  //发现link就发送请求
+    '<body><h1>待会就变红啦~</h1>' + 
+    '<script src="/main.js"></script></body></html>')                       //读到script标签也发请求
+    response.end()
+  }else if(path == '/style.css'){
+    response.setHeader('Content-Type', 'text/css;charset=utf-8')
+    response.write('body{background-color: #ddd;} h1{color: red;}')
+    response.end()
+  }else if(path == '/main.js'){
+    response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
+    response.write('alert("这是JS执行的！")')
     response.end()
   }else{
     response.statusCode = 404
     response.setHeader('Content-Type', 'text/html;charset=utf-8')
-    response.write('呜呜呜')
     response.end()
   }
 
